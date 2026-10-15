@@ -1,0 +1,128 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   CRESAY — Global Animation System
+   All keyframe animations are defined here.
+   Usage classes that apply animations are wrapped in prefers-reduced-motion.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ─── Keyframes (defined globally so inline-style references work) ─────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes lineGrow {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes photoZoomOut {
+  from { transform: scale(1.05); }
+  to   { transform: scale(1); }
+}
+
+@keyframes scrollPulse {
+  0%, 100% { opacity: 0.3; transform: scaleY(1); }
+  50%       { opacity: 0.8; transform: scaleY(0.55); }
+}
+
+/* ─── All animation rules: gated by prefers-reduced-motion ─────────────── */
+@media (prefers-reduced-motion: no-preference) {
+
+  /* ── Navbar mount animations ── */
+  .nav-logo-anim {
+    animation: fadeIn 600ms ease both;
+    will-change: opacity;
+  }
+  .nav-link-anim-1 { animation: fadeIn 600ms ease 100ms both; will-change: opacity; }
+  .nav-link-anim-2 { animation: fadeIn 600ms ease 200ms both; will-change: opacity; }
+  .nav-link-anim-3 { animation: fadeIn 600ms ease 300ms both; will-change: opacity; }
+  .nav-link-anim-4 { animation: fadeIn 600ms ease 400ms both; will-change: opacity; }
+
+  /* ── Nav link underline hover (::after growing line) ── */
+  .nav-link-btn {
+    position: relative;
+  }
+  .nav-link-btn::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: #fff;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.25s ease;
+  }
+  .nav-link-btn:hover::after {
+    transform: scaleX(1);
+  }
+
+  /* ── Image hover scale (QuemSomos photos) ── */
+  .qs-img-wrap {
+    overflow: hidden;
+    border-radius: 10px;
+    transition: box-shadow 0.5s ease;
+  }
+  .qs-img-inner {
+    width: 100%;
+    height: 100%;
+    transition: transform 0.5s ease;
+    will-change: transform;
+  }
+  .qs-img-wrap:hover .qs-img-inner {
+    transform: scale(1.03);
+  }
+
+  /* ── Team photo zoom-out on slide enter ── */
+  .team-photo-anim img {
+    animation: photoZoomOut 600ms ease both;
+    will-change: transform;
+  }
+
+  /* ── Footer divider lineGrow ── */
+  .footer-divider-anim {
+    transform-origin: left;
+    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+  }
+  .footer-divider-anim.is-hidden {
+    transform: scaleX(0);
+  }
+  .footer-divider-anim.is-visible {
+    transform: scaleX(1);
+  }
+
+  /* ── Social link hover ── */
+  .social-link-anim {
+    transition: opacity 0.2s ease, transform 0.2s ease, color 0.2s ease !important;
+    will-change: transform, opacity;
+  }
+  .social-link-anim:hover {
+    transform: translateY(-2px) !important;
+  }
+
+}
+
+/* ─── Scroll reveal utility (transition always applies, keyframes gated) ─ */
+.reveal-item {
+  transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal-item {
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
